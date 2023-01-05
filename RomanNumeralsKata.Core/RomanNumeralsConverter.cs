@@ -5,15 +5,15 @@
         public string ConvertToRomanNumeral(int number)
         {
             if (number <= 10)
-                return GetRomanNumeralUnits(number);
+                return ConvertRomanNumeralUnitsToString(number);
 
-            if (number > 10 && number <= 39)
-                return GetRomanNumeralTens(number);
+            if (number <= 49)
+                return ConvertRomanNumeralTensToString(number);
 
             return string.Empty;
         }
 
-        private string GetRomanNumeralUnits(int number)
+        private string ConvertRomanNumeralUnitsToString(int number)
         {
             switch (number)
             {
@@ -42,20 +42,36 @@
             }
         }
 
-        private string GetRomanNumeralTens(int number)
+        private string ConvertRomanNumeralTensToString(int number)
         {
             string result = string.Empty;
-            var tens = number / 10;
-            var units = number % 10;
+            var tens = (number / 10) * 10;
 
-            for (int i = 0; i < tens; i++)
-            {
-                result += GetRomanNumeralUnits(10);
-            }
+            result += DoConvertRomanNumeralTensAsString(tens);
 
-            result += GetRomanNumeralUnits(units);
+            var units = number - tens;
+
+            result += ConvertRomanNumeralUnitsToString(units);
 
             return result;
+        }
+
+        private string DoConvertRomanNumeralTensAsString(int number)
+        {
+            return number switch
+            {
+                10 => "X",
+                20 => "XX",
+                30 => "XXX",
+                40 => "XL",
+                50 => "L",
+                60 => "LX",
+                70 => "LXX",
+                80 => "LXXX",
+                90 => "XC",
+                100 => "C",
+                _ => string.Empty,
+            };
         }
     }
 }
