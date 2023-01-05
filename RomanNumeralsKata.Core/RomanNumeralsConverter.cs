@@ -7,7 +7,7 @@
             if (number <= 10)
                 return GetRomanNumeralUnits(number);
 
-            if (number > 10 && number <= 20)
+            if (number > 10 && number <= 39)
                 return GetRomanNumeralTens(number);
 
             return string.Empty;
