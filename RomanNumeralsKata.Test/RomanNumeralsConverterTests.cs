@@ -56,5 +56,24 @@ namespace RomanNumeralsKata.Test
             //Assert
             Assert.AreEqual(expected, actual);
         }
+
+        [TestCase(11, "XI")]
+        [TestCase(12, "XII")]
+        [TestCase(13, "XIII")]
+        [TestCase(14, "XIV")]
+        [TestCase(15, "XV")]
+        [TestCase(16, "XVI")]
+        [TestCase(17, "XVII")]
+        [TestCase(18, "XVIII")]
+        [TestCase(19, "XIX")]
+        [TestCase(20, "XX")]
+        public void Given_Number_Greater_Than_10_And_Less_Than_Or_Equal_To_20_Is_Enterted_When_ConvertToRomanNumeral_Is_Invoked_Then_Correct_Value_Is_Returned(int number, string expected)
+        {
+            // Act
+            string actual = _converter.ConvertToRomanNumeral(number);
+
+            //Assert
+            Assert.AreEqual(expected, actual);
+        }
     }
 }

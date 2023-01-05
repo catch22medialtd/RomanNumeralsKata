@@ -4,6 +4,17 @@
     {
         public string ConvertToRomanNumeral(int number)
         {
+            if (number <= 10)
+                return GetRomanNumeralUnits(number);
+
+            if (number > 10 && number <= 20)
+                return GetRomanNumeralTens(number);
+
+            return string.Empty;
+        }
+
+        private string GetRomanNumeralUnits(int number)
+        {
             switch (number)
             {
                 case 1:
@@ -27,10 +38,24 @@
                 case 10:
                     return "X";
                 default:
-                    break;
+                    return string.Empty;
+            }
+        }
+
+        private string GetRomanNumeralTens(int number)
+        {
+            string result = string.Empty;
+            var tens = number / 10;
+            var units = number % 10;
+
+            for (int i = 0; i < tens; i++)
+            {
+                result += GetRomanNumeralUnits(10);
             }
 
-            return string.Empty;
+            result += GetRomanNumeralUnits(units);
+
+            return result;
         }
     }
 }
