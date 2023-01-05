@@ -4,7 +4,10 @@
     {
         public string ConvertToRomanNumeral(int number)
         {
-            return "I";
+            if(number == 1)
+                return "I";
+
+            return string.Empty;
         }
     }
 }
