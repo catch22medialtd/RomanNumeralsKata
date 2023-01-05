@@ -1,3 +1,4 @@
+using FluentAssertions;
 using RomanNumeralsKata.Core;
 
 namespace RomanNumeralsKata.Test
@@ -5,37 +6,21 @@ namespace RomanNumeralsKata.Test
     [TestFixture]
     public class RomanNumeralsConverterTests
     {
-        private RomanNumeralsConverter _converter;
-
-        [SetUp]
-        public void Setup()
+        [Test]
+        public void Given_0_Is_Enterted_When_ConvertToRomanNumeral_Is_Invoked_Then_Error_Is_Returned()
         {
-            _converter = new();
+            var ex = Assert.Throws<ArgumentException>(() => RomanNumeralsConverter.ConvertToRomanNumeral(0));
+
+            Assert.That(ex.Message, Is.EqualTo("Please enter a value greater than 0"));
         }
 
         [Test]
         public void Given_1_Is_Enterted_When_ConvertToRomanNumeral_Is_Invoked_Then_I_Is_Returned()
         {
-            // Arrange
-            string expected = "I";
+            var expected = "I";
+            var actual = RomanNumeralsConverter.ConvertToRomanNumeral(1);
 
-            // Act
-            string actual = _converter.ConvertToRomanNumeral(1);
-
-            //Assert
-            Assert.AreEqual(expected, actual);
-        }
-
-        [TestCase(1, "I")]
-        [TestCase(2, "II")]
-        [TestCase(3, "III")]
-        public void Given_Number_Less_Than_4_Is_Enterted_When_ConvertToRomanNumeral_Is_Invoked_Then_Correct_Value_Is_Returned(int number, string expected)
-        {
-            // Act
-            string actual = _converter.ConvertToRomanNumeral(number);
-
-            //Assert
-            Assert.AreEqual(expected, actual);
+            actual.Should().Be(expected, $"Because we entered a value of 1");
         }
 
         [TestCase(1, "I")]
@@ -48,13 +33,11 @@ namespace RomanNumeralsKata.Test
         [TestCase(8, "VIII")]
         [TestCase(9, "IX")]
         [TestCase(10, "X")]
-        public void Given_Number_Less_Than_Or_Equal_To_10_Is_Enterted_When_ConvertToRomanNumeral_Is_Invoked_Then_Correct_Value_Is_Returned(int number, string expected)
+        public void Given_Number_Less_Than_Or_Equal_To_10_Is_Entered_When_ConvertToRomanNumeral_Is_Invoked_Then_Correct_Value_Is_Returned(int number, string expected)
         {
-            // Act
-            string actual = _converter.ConvertToRomanNumeral(number);
+            string actual = RomanNumeralsConverter.ConvertToRomanNumeral(number);
 
-            //Assert
-            Assert.AreEqual(expected, actual);
+            actual.Should().Be(expected, $"Because we entered a value of {number}");
         }
 
         [TestCase(11, "XI")]
@@ -67,13 +50,11 @@ namespace RomanNumeralsKata.Test
         [TestCase(18, "XVIII")]
         [TestCase(19, "XIX")]
         [TestCase(20, "XX")]
-        public void Given_Number_Greater_Than_10_And_Less_Than_Or_Equal_To_20_Is_Enterted_When_ConvertToRomanNumeral_Is_Invoked_Then_Correct_Value_Is_Returned(int number, string expected)
+        public void Given_Number_Greater_Than_10_And_Less_Than_Or_Equal_To_20_Is_Entered_When_ConvertToRomanNumeral_Is_Invoked_Then_Correct_Value_Is_Returned(int number, string expected)
         {
-            // Act
-            string actual = _converter.ConvertToRomanNumeral(number);
+            string actual = RomanNumeralsConverter.ConvertToRomanNumeral(number);
 
-            //Assert
-            Assert.AreEqual(expected, actual);
+            actual.Should().Be(expected, $"Because we entered a value of {number}");
         }
 
         [TestCase(21, "XXI")]
@@ -95,13 +76,11 @@ namespace RomanNumeralsKata.Test
         [TestCase(37, "XXXVII")]
         [TestCase(38, "XXXVIII")]
         [TestCase(39, "XXXIX")]
-        public void Given_Number_Less_Than_Or_Equal_To_39_Is_Enterted_When_ConvertToRomanNumeral_Is_Invoked_Then_Correct_Value_Is_Returned(int number, string expected)
+        public void Given_Number_Less_Than_Or_Equal_To_39_Is_Entered_When_ConvertToRomanNumeral_Is_Invoked_Then_Correct_Value_Is_Returned(int number, string expected)
         {
-            // Act
-            string actual = _converter.ConvertToRomanNumeral(number);
+            string actual = RomanNumeralsConverter.ConvertToRomanNumeral(number);
 
-            //Assert
-            Assert.AreEqual(expected, actual);
+            actual.Should().Be(expected, $"Because we entered a value of {number}");
         }
 
         [TestCase(40, "XL")]
@@ -116,11 +95,23 @@ namespace RomanNumeralsKata.Test
         [TestCase(49, "XLIX")]
         public void Given_Number_Less_Than_Or_Equal_To_49_Is_Enterted_When_ConvertToRomanNumeral_Is_Invoked_Then_Correct_Value_Is_Returned(int number, string expected)
         {
-            // Act
-            string actual = _converter.ConvertToRomanNumeral(number);
+            var actual = RomanNumeralsConverter.ConvertToRomanNumeral(number);
 
-            //Assert
-            Assert.AreEqual(expected, actual);
+            actual.Should().Be(expected, $"Because we entered a value of {number}");
+        }
+
+        [Test]
+        public void Given_Number_Between_1_And_2000_Is_Enterted_When_ConvertToRomanNumeral_Is_Invoked_Then_Correct_Value_Is_Returned()
+        {
+            var dataset = RomanNumeralsHelper.GetRomanNumeralsDataSet();
+
+            foreach (var set in dataset)
+            {
+                var expected = set.Value;
+                var actual = RomanNumeralsConverter.ConvertToRomanNumeral(set.Key);
+
+                actual.Should().Be(expected, $"Because we entered a value of {set.Key}");
+            }
         }
     }
 }

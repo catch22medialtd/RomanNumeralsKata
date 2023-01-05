@@ -2,61 +2,61 @@
 {
     public class RomanNumeralsConverter
     {
-        public string ConvertToRomanNumeral(int number)
+        public static string ConvertToRomanNumeral(int number)
         {
-            if (number <= 10)
-                return ConvertRomanNumeralUnitsToString(number);
+            if (number > 0)
+                return ConvertToRomanNumeralString(number);
 
-            if (number <= 49)
-                return ConvertRomanNumeralTensToString(number);
-
-            return string.Empty;
+            throw new ArgumentException("Please enter a value greater than 0");
         }
 
-        private string ConvertRomanNumeralUnitsToString(int number)
-        {
-            switch (number)
-            {
-                case 1:
-                    return "I";
-                case 2:
-                    return "II";
-                case 3:
-                    return "III";
-                case 4:
-                    return "IV";
-                case 5:
-                    return "V";
-                case 6:
-                    return "VI";
-                case 7:
-                    return "VII";
-                case 8:
-                    return "VIII";
-                case 9:
-                    return "IX";
-                case 10:
-                    return "X";
-                default:
-                    return string.Empty;
-            }
-        }
-
-        private string ConvertRomanNumeralTensToString(int number)
+        private static string ConvertToRomanNumeralString(int number)
         {
             string result = string.Empty;
-            var tens = (number / 10) * 10;
 
-            result += DoConvertRomanNumeralTensAsString(tens);
+            var noOfThousands = number / 1000;
+            var remainderHundreds = number % 1000;
+            var noOfHundreds = remainderHundreds / 100;
+            var remainderTens = remainderHundreds % 100;
+            var noOfTens = remainderTens / 10;
+            var noOfUnits = remainderTens % 10;
 
-            var units = number - tens;
-
-            result += ConvertRomanNumeralUnitsToString(units);
+            result += ConvertThousandsToRomanNumeralString(noOfThousands * 1000);
+            result += ConvertHundredsToRomanNumeralString(noOfHundreds * 100);
+            result += ConvertTensToRomanNumeralString(noOfTens * 10);
+            result += ConvertUnitsToRomanNumeralString(noOfUnits);
 
             return result;
         }
 
-        private string DoConvertRomanNumeralTensAsString(int number)
+        private static string ConvertThousandsToRomanNumeralString(int number)
+        {
+            return number switch
+            {
+                1000 => "M",
+                2000 => "MM",
+                _ => string.Empty,
+            };
+        }
+
+        private static string ConvertHundredsToRomanNumeralString(int number)
+        {
+            return number switch
+            {
+                100 => "C",
+                200 => "CC",
+                300 => "CCC",
+                400 => "CD",
+                500 => "D",
+                600 => "DC",
+                700 => "DCC",
+                800 => "DCCC",
+                900 => "CM",
+                _ => string.Empty,
+            };
+        }
+
+        private static string ConvertTensToRomanNumeralString(int number)
         {
             return number switch
             {
@@ -69,7 +69,23 @@
                 70 => "LXX",
                 80 => "LXXX",
                 90 => "XC",
-                100 => "C",
+                _ => string.Empty,
+            };
+        }
+
+        private static string ConvertUnitsToRomanNumeralString(int number)
+        {
+            return number switch
+            {
+                1 => "I",
+                2 => "II",
+                3 => "III",
+                4 => "IV",
+                5 => "V",
+                6 => "VI",
+                7 => "VII",
+                8 => "VIII",
+                9 => "IX",
                 _ => string.Empty,
             };
         }
